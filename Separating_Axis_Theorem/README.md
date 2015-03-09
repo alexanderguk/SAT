@@ -1,2 +1,0 @@
-# SAT
-Separating axis theorem
