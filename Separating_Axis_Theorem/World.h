@@ -18,6 +18,9 @@ public:
 	World(const std::shared_ptr<sf::RenderWindow> &window);
 
 	int run();
+
+private:
+	void init();
 };
 
 #endif

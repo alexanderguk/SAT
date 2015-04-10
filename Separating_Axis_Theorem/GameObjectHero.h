@@ -4,7 +4,7 @@
 
 #include "GameObject.h"
 
-class GameObjectHero : GameObject
+class GameObjectHero : public GameObject
 {
 private:
 	double targetX;

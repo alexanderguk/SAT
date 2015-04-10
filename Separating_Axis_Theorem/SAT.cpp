@@ -39,8 +39,6 @@ sf::Vector2f SAT::getProjection(const sf::VertexArray &vertices, const sf::Vecto
 			max = p;
 	}
 	sf::Vector2f projection(static_cast<float>(min), static_cast<float>(max));
-	//double length = getLength(projection);
-	//projection = sf::Vector2f(min / length, max / length);
 	return projection;
 }
 
