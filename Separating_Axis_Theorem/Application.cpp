@@ -1,16 +1,17 @@
 
+#include <memory>
 #include "Application.h"
 #include "World.h"
 
 int Application::run()
 {
-	// Создание окна
-	sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(640, 480), "SFML Project");
-	window.setFramerateLimit(FPS);
+	// Create window
+	auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode(640, 480), "SFML Project");
+	window->setFramerateLimit(FPS);
 
-	// Загрузка ресурсов
+	// Load resourses
 
-	// Запуск мира
-	World world(&window);
+	// Run world
+	World world(window);
 	return world.run();
 }

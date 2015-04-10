@@ -4,6 +4,6 @@
 
 int main()
 {
-	Application app = Application();
+	Application app;
 	return app.run();
 }

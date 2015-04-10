@@ -1,22 +1,23 @@
 
+#include <iostream>
 #include "World.h"
 
-World::World(sf::RenderWindow *window)
+World::World(const std::shared_ptr<sf::RenderWindow> &window)
 {
 	this->window = window;
 }
 
 int World::run()
 {
-	srand(time(0));
+	srand(static_cast<unsigned int>(time(0)));
 	// Инициализация всех объектов
 	for (int i = 0; i < 10; ++i)
 	{
 		sf::VertexArray vertices;
-		vertices.append(sf::Vertex(sf::Vector2f(0 + rand() % 50, 0 + rand() % 50)));
-		vertices.append(sf::Vertex(sf::Vector2f(70 + rand() % 50, 20 + rand() % 50)));
-		vertices.append(sf::Vertex(sf::Vector2f(40 + rand() % 50, 50 + rand() % 50)));
-		vertices.append(sf::Vertex(sf::Vector2f(-10 + rand() % 50, 60 + rand() % 50)));
+		vertices.append(sf::Vertex(sf::Vector2f(0.f + rand() % 50, 0.f + rand() % 50)));
+		vertices.append(sf::Vertex(sf::Vector2f(70.f + rand() % 50, 20.f + rand() % 50)));
+		vertices.append(sf::Vertex(sf::Vector2f(40.f + rand() % 50, 50.f + rand() % 50)));
+		vertices.append(sf::Vertex(sf::Vector2f(-10.f + rand() % 50, 60.f + rand() % 50)));
 		gameObjects.push_back(GameObject(rand() % (window->getSize().x - 50), rand() % (window->getSize().y - 50), vertices));
 	}
 	sf::VertexArray vertices;
@@ -51,7 +52,7 @@ int World::run()
 			gameObject.draw(window);
 		}
 		hero.draw(window);
-		hero.update(gameObjects, window);
+		hero.update(gameObjects);
 
 		window->display();
 	}

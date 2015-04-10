@@ -1,36 +1,39 @@
 
 #include "GameObject.h"
 
-GameObject::GameObject()
+GameObject::GameObject() : x(0), y(0)
 {
-	sf::VertexArray emptyVector;
-	GameObject(0.0f, 0.0f, emptyVector);
 }
 
-GameObject::GameObject(double x, double y, sf::VertexArray points)
+GameObject::GameObject(double x, double y, const sf::VertexArray &points)
 {
 	this->x = x;
 	this->y = y;
 	vertices = points;
 }
 
-void GameObject::draw(sf::RenderWindow *window)
+void GameObject::draw(const std::shared_ptr<sf::RenderWindow> &window) const
 {
 	sf::VertexArray triangle(sf::TrianglesFan);
-	for (int i = 0; i < vertices.getVertexCount(); ++i)
-		triangle.append(sf::Vertex(sf::Vector2f(vertices[i].position.x + x, vertices[i].position.y + y)));
+	for (unsigned int i = 0; i < vertices.getVertexCount(); ++i)
+		triangle.append(sf::Vertex(sf::Vector2f(vertices[i].position.x + static_cast<float>(x), vertices[i].position.y + static_cast<float>(y))));
 	triangle[0].color = sf::Color::Green;
 	triangle[1].color = sf::Color::Green;
 	triangle[2].color = sf::Color::Green;
 	window->draw(triangle);
 }
 
-double GameObject::getX()
+double GameObject::getX() const
 {
 	return x;
 }
 
-double GameObject::getY()
+double GameObject::getY() const
 {
 	return y;
+}
+
+const sf::VertexArray& GameObject::getVertices() const
+{
+	return vertices;
 }

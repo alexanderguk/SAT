@@ -1,14 +1,8 @@
 
-#ifndef GAMEOBJECTHERO_H
-#define GAMEOBJECTHERO_H
+#ifndef _GAMEOBJECTHERO_H
+#define _GAMEOBJECTHERO_H
 
-#include <SFML/Graphics.hpp>
 #include "GameObject.h"
-#include "SAT.h"
-
-using namespace std;
-
-typedef unsigned int uInt;
 
 class GameObjectHero : GameObject
 {
@@ -19,9 +13,9 @@ private:
 
 public:
 	GameObjectHero();
-	GameObjectHero(double x, double y, sf::VertexArray points, double speed);
-	void update(vector<GameObject> gameObjects, sf::RenderWindow *window);
-	void draw(sf::RenderWindow *window);
+	GameObjectHero(double x, double y, const sf::VertexArray &points, double speed);
+	void update(const std::vector<GameObject> &gameObjects);
+	void draw(const std::shared_ptr<sf::RenderWindow> &window) const;
 	void setTarget(int x, int y);
 };
 

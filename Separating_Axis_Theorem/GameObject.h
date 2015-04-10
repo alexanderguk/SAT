@@ -1,27 +1,26 @@
 
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+#ifndef _GAMEOBJECT_H
+#define _GAMEOBJECT_H
 
+#include <memory>
 #include <SFML/Graphics.hpp>
-
-using namespace std;
 
 class GameObject
 {
 protected:
 	double x;
 	double y;
-public:
 	sf::VertexArray vertices;
 
 public:
 	GameObject();
-	GameObject(double x, double y, sf::VertexArray points);
+	GameObject(double x, double y, const sf::VertexArray &points);
 
 public:
-	void draw(sf::RenderWindow *window);
-	double getX();
-	double getY();
+	void draw(const std::shared_ptr<sf::RenderWindow> &window) const;
+	double getX() const;
+	double getY() const;
+	const sf::VertexArray& getVertices() const;
 };
 
 #endif

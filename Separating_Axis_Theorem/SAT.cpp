@@ -1,10 +1,10 @@
 
 #include "SAT.h"
 
-sf::VertexArray SAT::getAxes(sf::VertexArray vertices)
+sf::VertexArray SAT::getAxes(const sf::VertexArray &vertices)
 {
 	sf::VertexArray axes;
-	for (int i = 0; i < vertices.getVertexCount(); ++i)
+	for (unsigned int i = 0; i < vertices.getVertexCount(); ++i)
 	{
 		sf::Vector2f p1 = vertices[i].position;
 		sf::Vector2f p2 = vertices[i + 1 == vertices.getVertexCount() ? 0 : i + 1].position;
@@ -16,21 +16,21 @@ sf::VertexArray SAT::getAxes(sf::VertexArray vertices)
 	return axes;
 }
 
-double SAT::getDot(sf::Vector2f vector1, sf::Vector2f vector2)
+double SAT::getDot(const sf::Vector2f &vector1, const sf::Vector2f &vector2)
 {
 	return vector1.x * vector2.x + vector1.y * vector2.y;
 }
 
-double SAT::getLength(sf::Vector2f vector)
+double SAT::getLength(const sf::Vector2f &vector)
 {
 	return sqrt(pow(vector.x, 2) + pow(vector.y, 2));
 }
 
-sf::Vector2f SAT::getProjection(sf::VertexArray vertices, sf::Vector2f axis)
+sf::Vector2f SAT::getProjection(const sf::VertexArray &vertices, const sf::Vector2f &axis)
 {
 	double min = getDot(axis, vertices[0].position);
 	double max = min;
-	for (int i = 1; i < vertices.getVertexCount(); ++i)
+	for (unsigned int i = 1; i < vertices.getVertexCount(); ++i)
 	{
 		double p = getDot(axis, vertices[i].position);
 		if (p < min)
@@ -38,35 +38,35 @@ sf::Vector2f SAT::getProjection(sf::VertexArray vertices, sf::Vector2f axis)
 		else if (p > max)
 			max = p;
 	}
-	sf::Vector2f projection(min, max);
+	sf::Vector2f projection(static_cast<float>(min), static_cast<float>(max));
 	//double length = getLength(projection);
 	//projection = sf::Vector2f(min / length, max / length);
 	return projection;
 }
 
-bool SAT::isOverlap(sf::Vector2f vector1, sf::Vector2f vector2)
+bool SAT::isOverlap(const sf::Vector2f &vector1, const sf::Vector2f &vector2)
 {
 	return (vector1.x < vector2.x && vector2.x < vector1.y) || (vector1.x < vector2.y && vector2.y < vector1.y) \
 		|| (vector2.x < vector1.x && vector1.x < vector2.y) || (vector2.x < vector1.y && vector1.y < vector2.y);
 }
 
-bool SAT::isPlaceFree(sf::VertexArray vertices, double x, double y, vector<GameObject> gameObjects, sf::RenderWindow *window)
+bool SAT::isPlaceFree(sf::VertexArray vertices, double x, double y, std::vector<GameObject> gameObjects)
 {
 	sf::VertexArray heroVertices = vertices;
-	for (int i = 0; i < heroVertices.getVertexCount(); ++i)
+	for (unsigned int i = 0; i < heroVertices.getVertexCount(); ++i)
 	{
-		heroVertices[i].position.x += x;
-		heroVertices[i].position.y += y;
+		heroVertices[i].position.x += static_cast<float>(x);
+		heroVertices[i].position.y += static_cast<float>(y);
 	}
 
-	vector<sf::VertexArray> gameObjectsVertices;
-	for (int i = 0; i < gameObjects.size(); ++i)
+	std::vector<sf::VertexArray> gameObjectsVertices;
+	for (unsigned int i = 0; i < gameObjects.size(); ++i)
 	{
-		gameObjectsVertices.push_back(gameObjects[i].vertices);
-		for (int j = 0; j < gameObjectsVertices[i].getVertexCount(); ++j)
+		gameObjectsVertices.push_back(gameObjects[i].getVertices());
+		for (unsigned int j = 0; j < gameObjectsVertices[i].getVertexCount(); ++j)
 		{
-			gameObjectsVertices[i][j].position.x += gameObjects[i].getX();
-			gameObjectsVertices[i][j].position.y += gameObjects[i].getY();
+			gameObjectsVertices[i][j].position.x += static_cast<float>(gameObjects[i].getX());
+			gameObjectsVertices[i][j].position.y += static_cast<float>(gameObjects[i].getY());
 		}
 	}
 
@@ -76,7 +76,7 @@ bool SAT::isPlaceFree(sf::VertexArray vertices, double x, double y, vector<GameO
 		sf::VertexArray axes2 = getAxes(gameObjectVertices);
 		bool noCollision = false;
 
-		for (int i = 0; i < axes1.getVertexCount(); ++i)
+		for (unsigned int i = 0; i < axes1.getVertexCount(); ++i)
 		{
 			sf::Vector2f axis = axes1[i].position;
 			sf::Vector2f projection1 = getProjection(heroVertices, axis);
@@ -89,7 +89,7 @@ bool SAT::isPlaceFree(sf::VertexArray vertices, double x, double y, vector<GameO
 		}
 		if (!noCollision)
 		{
-			for (int i = 0; i < axes2.getVertexCount(); ++i)
+			for (unsigned int i = 0; i < axes2.getVertexCount(); ++i)
 			{
 				sf::Vector2f axis = axes2[i].position;
 				sf::Vector2f projection1 = getProjection(heroVertices, axis);

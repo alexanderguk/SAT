@@ -1,18 +1,11 @@
 
-#ifndef APPLICATION_H
-#define APPLICATION_H
-
-#include <SFML/Graphics.hpp>
-#include <string>
-
-using namespace std;
-
-typedef unsigned int uInt;
+#ifndef _APPLICATION_H
+#define _APPLICATION_H
 
 class Application
 {
 private:
-	const uInt FPS = 60;
+	const unsigned int FPS = 60;
 
 public:
 	int run();

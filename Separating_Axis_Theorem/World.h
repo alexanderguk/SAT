@@ -1,24 +1,21 @@
 
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef _WORLD_H
+#define _WORLD_H
 
+#include <memory>
 #include <SFML/Graphics.hpp>
-#include <string>
 #include "GameObject.h"
 #include "GameObjectHero.h"
-#include <cstdlib>
-
-using namespace std;
 
 class World
 {
 private:
-	sf::RenderWindow *window;
-	vector<GameObject> gameObjects;
+	std::shared_ptr<sf::RenderWindow> window;
+	std::vector<GameObject> gameObjects;
 	GameObjectHero hero;
 
 public:
-	World(sf::RenderWindow *window);
+	World(const std::shared_ptr<sf::RenderWindow> &window);
 
 	int run();
 };
